@@ -54,7 +54,7 @@ const Puzzle = () => {
     return (
         <div className='puzzle'>
             <Board size={size} boardArray={boardArray} updateBoard={updateBoard} updateNumberOfMoves={updateNumberOfMoves} isFinished={isFinished} />
-            <span className="slider-msg">
+            <span className={isFinished ? "slider-msg-win" :"slider-msg"}>
                 {message}
             </span>
             <div className="btn-new-game">
