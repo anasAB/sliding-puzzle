@@ -1,33 +1,31 @@
 import React, { useState, useEffect } from 'react'
 import Cell from './Cell';
 
-
-
 const Board = (props) => {
-    const { size, boardArray, updateBoard, updateNumberOfMoves } = props
+    const { size, boardArray, updateBoard, updateNumberOfMoves, isFinished } = props
 
     const [zeroIndex, setzeroIndex] = useState(0)
+
     const [possibleTopIndex, setPossibleTopIndex] = useState(0)
-    const [possiblRightIndex, setpossiblRightIndex] = useState(0)
-    const [possiblBottomIndex, setPossiblBottomIndex] = useState(0)
+    const [possibleBottomIndex, setPossibleBottomIndex] = useState(0)
+
+    const [possibleRightIndex, setPossibleRightIndex] = useState(0)
     const [possibleLeftIndex, setPossibleLeftIndex] = useState(0)
 
 
     const findPossibleMovingIndex = () => {
         const zeroIndex = boardArray.indexOf(0);
         setzeroIndex(zeroIndex)
-
         const zeroCoordinate = getZeroCoords(zeroIndex);
-
-        const possibleTopIndex = zeroCoordinate.row > 0 && getPotentialIndex(zeroCoordinate.row - 1, zeroCoordinate.column);
-        const possiblBottomIndex = zeroCoordinate.row < size && getPotentialIndex(zeroCoordinate.row + 1, zeroCoordinate.column);
-
-        const possiblRightIndex = zeroCoordinate.column < size && getPotentialIndex(zeroCoordinate.row, zeroCoordinate.column + 1);
-        const possibleLeftIndex = zeroCoordinate.column > 0 && getPotentialIndex(zeroCoordinate.row, zeroCoordinate.column - 1);
+        const possibleTopIndex = zeroCoordinate.row > 1 && getPotentialIndex(zeroCoordinate.row - 1, zeroCoordinate.column);
+        const possibleBottomIndex = zeroCoordinate.row < size && getPotentialIndex(zeroCoordinate.row + 1, zeroCoordinate.column);
+        
+        const possibleRightIndex = zeroCoordinate.column < size && getPotentialIndex(zeroCoordinate.row, zeroCoordinate.column + 1);
+        const possibleLeftIndex = zeroCoordinate.column > 1 && getPotentialIndex(zeroCoordinate.row, zeroCoordinate.column - 1);
 
         setPossibleTopIndex(possibleTopIndex)
-        setpossiblRightIndex(possiblRightIndex)
-        setPossiblBottomIndex(possiblBottomIndex)
+        setPossibleBottomIndex(possibleBottomIndex)
+        setPossibleRightIndex(possibleRightIndex)
         setPossibleLeftIndex(possibleLeftIndex)
     }
 
@@ -41,15 +39,17 @@ const Board = (props) => {
     }
 
     const getPotentialIndex = (row, col) => {
-        return (size * (row - 1)) + col - 1;
+        return (size * (row - 1)) + col - 1
     }
 
     const cellClickHandler = (index) => {
-        findPossibleMovingIndex()
-        if (index === possibleTopIndex || index === possiblRightIndex || index === possiblBottomIndex || index === possibleLeftIndex) {
-            updateNumberOfMoves(1)
-            return nextBoard(index)
-        };
+        if (!isFinished) {
+            findPossibleMovingIndex()
+            if (index === possibleTopIndex || index === possibleRightIndex || index === possibleBottomIndex || index === possibleLeftIndex) {
+                updateNumberOfMoves(1)
+                nextBoard(index)
+            };
+        }
     }
 
     const nextBoard = (cellIndex) => {
@@ -61,8 +61,6 @@ const Board = (props) => {
         updateBoard(newboard);
     }
 
-    return (
-        <Cell boardcells={boardArray} cellClickHandler={cellClickHandler} size={size} />
-    )
+    return <Cell boardcells={boardArray} cellClickHandler={cellClickHandler} size={size} />
 }
 export default Board

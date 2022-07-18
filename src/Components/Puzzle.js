@@ -9,6 +9,7 @@ const Puzzle = () => {
     const [isFinished, setIsFinished] = useState(false)
 
     const initializeNewGame = () => {
+        setIsFinished(false)
         setNumberOfMoves(0)
         setBoardArray(shuffleBoardCells(boardArray))
     }
@@ -16,11 +17,11 @@ const Puzzle = () => {
 
     const shuffleBoardCells = (boardArray) => {
         const shuffledArray = boardArray.slice();
-        for (let index = shuffledArray.length - 1; index > 0; index--) {
+        for (let index of shuffledArray) {
             const randomNumber = Math.floor(Math.random() * index);
             [shuffledArray[index], shuffledArray[randomNumber]] = [shuffledArray[randomNumber], shuffledArray[index]];
+            setBoardArray(shuffledArray)
         }
-        setBoardArray(shuffledArray)
         return shuffledArray
     }
 
@@ -28,24 +29,18 @@ const Puzzle = () => {
         setNumberOfMoves(prevNum => prevNum + 1)
     }
 
-
     useEffect(() => {
-        const initBord = (size) => {
-            const test = Array.from({ length: size * size }, (_, b) => b)
-            setBoardArray(test)
-            return;
-        }
-        setBoardArray(shuffleBoardCells(boardArray))
-        initBord(size)
+        const test = Array.from({ length: size * size }, (_, index) => index)
+        setBoardArray(shuffleBoardCells(test))
     }, [size]);
 
 
     const updateBoard = (boardArray) => {
-        setIsFinished(isArraySorted(boardArray))
+        setIsFinished(isBoardSorted(boardArray))
         setBoardArray(boardArray)
     }
 
-    const isArraySorted = (array) => array.every((value, index, array) => {
+    const isBoardSorted = (array) => array.every((value, index, array) => {
         return !index || array[index - 1] <= value
     });
 
@@ -53,25 +48,23 @@ const Puzzle = () => {
         setsize(event.target.value)
     };
 
-    const message = (isFinished ? "Winner !!! " : "Total ") + `Moves: ${numberOfMoves}`
-    
+    const message = isFinished ? `Winner !!! With ${numberOfMoves} Moves` : `Total Moves: ${numberOfMoves}`
+
     return (
         <div className='puzzle'>
-            <Board size={size} boardArray={boardArray} updateBoard={updateBoard} updateNumberOfMoves={updateNumberOfMoves} />
-            <p>Total Number Of Moves: {numberOfMoves}</p>
-            {isFinished && <span className="slider-msg">
+            <Board size={size} boardArray={boardArray} updateBoard={updateBoard} updateNumberOfMoves={updateNumberOfMoves} isFinished={isFinished} />
+            <span className="slider-msg">
                 {message}
-            </span>}
+            </span>
             <div className="btn-new-game">
                 <button className="btn-new-game" type='button' value='New 4x4 game' onClick={initializeNewGame}>New Game</button>
             </div>
             <div className='input-filed'>
                 <span>Create Your Own Puzzle</span>
-                <input className="input-filed" type="text" onChange={handleInput}/>
+                <input type="text" onChange={handleInput} />
             </div>
         </div>
     );
-
 }
 
 

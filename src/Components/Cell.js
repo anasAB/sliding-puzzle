@@ -6,11 +6,11 @@ const Cell = (props) => {
     const { cellClickHandler, boardcells, size } = props
 
     const squares = boardcells.map((value, index) => {
-        const classx = value === 0 ? 'cell-zero' : 'item';
+        const cellStyle = value === 0 ? 'cell-zero' : 'item';
         if ((index % size === (size -1))) {
             return (
                 <span key={value}>
-                    <span key={value} className={classx} onClick={() => cellClickHandler(index)}>
+                    <span key={value} className={cellStyle} onClick={() => cellClickHandler(index)}>
                         <span >{value !== 0 && value}</span>
                     </span>
                     <br />
@@ -19,7 +19,7 @@ const Cell = (props) => {
             );
         }
         return (
-            <span key={value} className={classx} onClick={() => cellClickHandler(index)}>
+            <span key={value} className={cellStyle} onClick={() => cellClickHandler(index)}>
                 <span >{value !== 0 && value}</span>
             </span>
         );

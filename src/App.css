@@ -12,6 +12,9 @@
 
 .slider-msg {
   font-size: 24px;
+  color: rgba(247, 6, 6, 0.25);
+  font-weight :'bold';
+
 }
 
 .btn-new-game button {
@@ -52,8 +55,6 @@
 
 .input-filed{
   align-items: center;
-  border-radius :10px;
-  cursor :'pointer';
   display :'flex';
   justify-content: 'center';
   padding: 12px 20px;
@@ -65,4 +66,10 @@
 .input-filed span{
   color:#767685;
   margin: 10px;
+}
+
+.input-filed input{
+  border-radius :5px;
+  cursor :'pointer';
+  
 }
