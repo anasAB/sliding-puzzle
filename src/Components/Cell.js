@@ -3,10 +3,10 @@ import React from 'react'
 
 const Cell = (props) => {
 
-    const { cellClickHandler, boardcells, size } = props
+    const { cellClickHandler, boardCells, size, isFinished } = props
 
-    const squares = boardcells.map((value, index) => {
-        const cellStyle = value === 0 ? 'cell-zero' : 'item';
+    const squares = boardCells.map((value, index) => {
+        const cellStyle = value === 0 ? 'cell-zero' : isFinished ? 'item game-finished': 'item';
         if ((index % size === (size -1))) {
             return (
                 <span key={value}>

@@ -61,6 +61,6 @@ const Board = (props) => {
         updateBoard(newboard);
     }
 
-    return <Cell boardcells={boardArray} cellClickHandler={cellClickHandler} size={size} />
+    return <Cell boardCells={boardArray} cellClickHandler={cellClickHandler} size={size} isFinished={isFinished} />
 }
 export default Board

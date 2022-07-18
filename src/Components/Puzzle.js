@@ -45,6 +45,7 @@ const Puzzle = () => {
     });
 
     const handleInput = (event) => {
+        initializeNewGame()
         setsize(event.target.value)
     };
 
